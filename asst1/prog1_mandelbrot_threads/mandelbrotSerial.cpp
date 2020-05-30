@@ -97,7 +97,7 @@ void mandelbrotSingleThread(float x0, float y0, float x1, float y1,
   float dx = (x1-x0)/width;
   float dy = (y1-y0)/height;
   for(int i=0; i<height; i++){
-    for(int j=(threadId+i)%numThreads; j<width; j+=numThreads){
+    for(int j=threadId;j<width;j+=numThreads){
       float x=x0+j*dx;
       float y=y0+i*dy;
 
