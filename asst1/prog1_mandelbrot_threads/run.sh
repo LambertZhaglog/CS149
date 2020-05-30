@@ -1,4 +1,6 @@
 #!/bin/bash
+rm view1.txt
+rm view2.txt
 X=2
 while(($X<=8))
 do

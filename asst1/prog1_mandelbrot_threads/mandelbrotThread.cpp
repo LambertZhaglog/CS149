@@ -22,6 +22,10 @@ extern void mandelbrotSerial(
     int maxIterations,
     int output[]);
 
+extern void mandelbrotSingleThread(float x0, float y0, float x1, float y1,
+			    int width, int height,
+			    int numThreads, int threadId,
+				   int maxIterations, int output[]);
 
 //
 // workerThreadStart --
@@ -34,11 +38,11 @@ void workerThreadStart(WorkerArgs * const args) {
     // to compute a part of the output image.  For example, in a
     // program that uses two threads, thread 0 could compute the top
     // half of the image and thread 1 could compute the bottom half.
-  int perThread=(args->height+args->numThreads-1)/args->numThreads;
-  int startRow=0+args->threadId*perThread;
   double startTime = CycleTimer::currentSeconds();
-  mandelbrotSerial(args->x0,args->y0,args->x1,args->y1,args->width, args->height, \
-		   startRow,args->threadId!=args->numThreads-1?perThread:(args->height-(args->threadId*perThread)), args->maxIterations, args->output);
+  mandelbrotSingleThread(args->x0, args->y0, args->x1, args->y1,
+			    args->width, args->height,
+			    args->numThreads, args->threadId,
+			 args->maxIterations, args->output);
   double endTime = CycleTimer::currentSeconds();
   double totalTime=endTime-startTime;
   printf("[totalThread %d thread %d]:\t\t[%.3f] ms\n", args->numThreads, args->threadId, totalTime * 1000);
